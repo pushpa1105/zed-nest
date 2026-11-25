@@ -1,0 +1,115 @@
+{
+  "name": "zed-nest",
+  "version": "0.1.0",
+  "description": "Enterprise-grade NestJS starter: feature-based architecture, PostgreSQL + Kysely, ports & adapters persistence.",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.16.1",
+  "scripts": {
+    "build": "nest build",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node --enable-source-maps dist/main.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "oxlint --type-aware src/ test/ scripts/",
+    "lint:fix": "oxlint --type-aware --fix src/ test/ scripts/",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+    "db:migrate": "tsx src/infrastructure/database/cli/migrate.ts latest",
+    "db:migrate:up": "tsx src/infrastructure/database/cli/migrate.ts up",
+    "db:migrate:down": "tsx src/infrastructure/database/cli/migrate.ts down",
+    "db:migrate:create": "tsx src/infrastructure/database/cli/migrate.ts create",
+    "db:migrate:status": "tsx src/infrastructure/database/cli/migrate.ts status",
+    "db:migrate:prod": "node dist/infrastructure/database/cli/migrate.js latest",
+    "db:seed": "tsx src/infrastructure/database/cli/seed.ts",
+    "gen:feature": "tsx scripts/generate-feature.ts",
+    "openapi:export": "nest build && node dist/core/openapi/cli/export-openapi.js",
+    "prepare": "husky || true",
+    "validate": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "audit": "pnpm audit --prod --audit-level high"
+  },
+  "dependencies": {
+    "@nestjs-cls/transactional": "^4.0.2",
+    "@nestjs-cls/transactional-adapter-kysely": "^2.0.2",
+    "@nestjs/common": "^12.6.0",
+    "@nestjs/core": "^12.6.0",
+    "@nestjs/event-emitter": "^12.0.3",
+    "@nestjs/jwt": "^12.0.5",
+    "@nestjs/platform-express": "^12.6.0",
+    "@nestjs/swagger": "^12.1.2",
+    "@nestjs/terminus": "^12.2.0",
+    "@nestjs/throttler": "^6.8.0",
+    "@node-rs/argon2": "^2.2.2",
+    "@scalar/nestjs-api-reference": "^1.2.41",
+    "compression": "^1.8.2",
+    "helmet": "^8.3.0",
+    "kysely": "^0.29.9",
+    "nestjs-cls": "^7.0.2",
+    "nestjs-pino": "^5.3.2",
+    "pg": "^8.23.1",
+    "pino": "^10.4.0",
+    "pino-http": "^11.0.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@nestjs/cli": "^12.0.15",
+    "@nestjs/schematics": "^12.0.16",
+    "@nestjs/testing": "^12.6.0",
+    "@standard-schema/spec": "^1.1.0",
+    "@testcontainers/postgresql": "^12.2.2",
+    "@types/compression": "^1.8.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.7",
+    "@types/pg": "^8.23.1",
+    "@types/supertest": "^7.2.1",
+    "@vitest/coverage-v8": "^5.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.2",
+    "oxlint": "^1.95.0",
+    "oxlint-tsgolint": "^7.0.2008",
+    "pino-pretty": "^13.2.0",
+    "prettier": "^3.10.1",
+    "source-map-support": "^0.5.21",
+    "supertest": "^7.3.2",
+    "testcontainers": "^12.2.2",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  },
+  "type": "module",
+  "lint-staged": {
+    "*.ts": [
+      "oxlint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "@node-rs/argon2"
+    ],
+    "ignoredBuiltDependencies": [
+      "@scarf/scarf",
+      "@parcel/watcher",
+      "cpu-features",
+      "protobufjs",
+      "ssh2"
+    ]
+  }
+}
